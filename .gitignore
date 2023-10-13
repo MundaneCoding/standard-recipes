@@ -1,0 +1,16 @@
+# commons
+.vscode/*
+.ipynb_checkpoints
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+
+# misc
+data/*
+!data/README
+cache/*
+!cache/README
+log/*
+!log/README
+
