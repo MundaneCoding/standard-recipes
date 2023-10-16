@@ -10,7 +10,7 @@ RUN groupadd --gid ${USER_GID} ${GRPNAME} \
     && useradd --uid ${USER_UID} -s /bin/bash --gid ${USER_GID} -m ${USERNAME} \
     && usermod -aG root ${USERNAME}
 
-RUN pip install diffusers==0.12.1 monai==1.2.0
+RUN pip install matplotlib numpy pandas h5py jupyter diffusers==0.12.1 torchvision==0.14.1
 
 WORKDIR /workspace
 RUN chown -R ${USERNAME}:${GRPNAME} /workspace

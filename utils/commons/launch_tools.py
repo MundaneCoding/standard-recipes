@@ -20,6 +20,7 @@ class StandardArgParser(ArgumentParser):
 
         ### hardware
         self.add_argument('--gpus', default=[0], nargs='+', type=int)
+        self.add_argument('--num_workers', default=4, type=int)
 
     def parse_args(self):
         args = super().parse_args()
