@@ -1,2 +1,8 @@
-# standard-recipes
-recipes for building ML pipeline and more!
+# ML pipeline
+
+
+## Getting started
+
+```bash
+git submodule add https://github.com/YuyiChang/standard-recipes.git commons
+```
