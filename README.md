@@ -1,8 +1,8 @@
-# ML pipeline
+# Useful standard recipes
 
+recipes for building ML pipeline and more (checkout other branches)!
 
-## Getting started
+## Index
 
-```bash
-git submodule add https://github.com/YuyiChang/standard-recipes.git commons
-```
+- [ML pipeline](https://github.com/YuyiChang/standard-recipes/tree/ml) @ `ml` branch
+    - `git submodule add -b ml https://github.com/YuyiChang/standard-recipes.git commons`
