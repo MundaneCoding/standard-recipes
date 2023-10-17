@@ -3,6 +3,8 @@
 
 ## Getting started
 
+Go to the project root directory and run the following,
+
 ```bash
-git submodule add https://github.com/YuyiChang/standard-recipes.git commons
+git submodule add -b ml https://github.com/YuyiChang/standard-recipes.git commons
 ```
