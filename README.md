@@ -11,6 +11,8 @@ Avaliable at [ml branch](https://github.com/YuyiChang/standard-recipes/tree/ml).
 
 Adding to current project by running the following at the project's root folder.
 
-`git submodule add -b ml https://github.com/YuyiChang/standard-recipes.git commons`
+```bash
+git submodule add -b ml https://github.com/YuyiChang/standard-recipes.git commons`
+```
 
 > Comming soon: example usage
