@@ -30,27 +30,36 @@ class StandardArgParser(ArgumentParser):
 
 ##### generic trainer
 class StandardTrainer(pl.Trainer):
-    def __init__(self, sargs, val_check_interval=0.25, *args, **kwargs):
+    def __init__(self, sargs, 
+                 val_check_interval=0.25, 
+                 chpt_monitor_loss=True, 
+                 chpt_save_all_epoch=False,
+                 *args, **kwargs):
         ## checkpointing behaviors
-        chpt_cb_loss = ModelCheckpoint(
-            monitor='val_loss_epoch',
-            mode='min',
-            verbose=True,
-            auto_insert_metric_name=True,
-            save_on_train_epoch_end=False,
-            save_top_k=3,
-            filename='{epoch}-{step}-{val_loss_epoch:.5f}'
-        )
+        cbs = []
+        if chpt_monitor_loss:
+            chpt_cb_loss = ModelCheckpoint(
+                monitor='val_loss_epoch',
+                mode='min',
+                verbose=True,
+                auto_insert_metric_name=True,
+                save_on_train_epoch_end=False,
+                save_top_k=3,
+                filename='{epoch}-{step}-{val_loss_epoch:.5f}'
+            )
+            cbs.append(chpt_cb_loss)
 
         chpt_cb_epoch = ModelCheckpoint(
             monitor='epoch',
             mode='max',
             save_on_train_epoch_end=True,
-            save_top_k=3,
+            save_top_k=-1 if chpt_save_all_epoch else 3,
             filename='chpt-{epoch:02d}'
         )
+        cbs.append(chpt_cb_epoch)
 
         lr_monitor = LearningRateMonitor(logging_interval='step')
+        cbs.append(lr_monitor)
 
         super().__init__(accelerator='cuda', 
                          devices=sargs.gpus, 
@@ -58,7 +67,7 @@ class StandardTrainer(pl.Trainer):
                          val_check_interval=val_check_interval, 
                          default_root_dir=sargs.log_dir, 
                          enable_progress_bar=True, 
-                         callbacks=[chpt_cb_loss, chpt_cb_epoch, lr_monitor], 
+                         callbacks=cbs, 
                          strategy="ddp_find_unused_parameters_true",
                          fast_dev_run=sargs.debug, 
                          log_every_n_steps=1,
