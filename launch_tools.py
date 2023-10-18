@@ -59,7 +59,7 @@ class StandardTrainer(pl.Trainer):
                          default_root_dir=sargs.log_dir, 
                          enable_progress_bar=True, 
                          callbacks=[chpt_cb_loss, chpt_cb_epoch, lr_monitor], 
-                         strategy="ddp_find_unused_parameters_false",
+                         strategy="ddp_find_unused_parameters_true",
                          fast_dev_run=sargs.debug, 
                          log_every_n_steps=1,
                          *args, **kwargs)

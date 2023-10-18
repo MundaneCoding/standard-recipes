@@ -41,6 +41,8 @@ class StandardDatamodule(pl.LightningDataModule):
         self.dataset = dataset
 
         self.num_worker = 1
+
+        self.kwargs = kwargs
         
     def prepare_data(self):
         return NotImplemented
@@ -50,20 +52,25 @@ class StandardDatamodule(pl.LightningDataModule):
             self.ts_set = self.dataset(data_dir=self.data_dir,
                                        csv_path=os.path.join(self.index_dir, 'index_test.csv'),
                                        label_dir=self.label_dir,
-                                       stage='test')
+                                       stage='test',
+                                       **self.kwargs)
         else:
             self.tr_set = self.dataset(data_dir=self.data_dir,
                                        csv_path=os.path.join(self.index_dir, 'index_train.csv'),
                                        label_dir=self.label_dir,
-                                       stage='train')
+                                       stage='train',
+                                       shuffle=True, 
+                                       **self.kwargs)
             self.va_set = self.dataset(data_dir=self.data_dir,
                                        csv_path=os.path.join(self.index_dir, 'index_val.csv'),
                                        label_dir=self.label_dir,
-                                       stage='val')
+                                       stage='val',
+                                       **self.kwargs)
             self.ts_set = self.dataset(data_dir=self.data_dir,
                                        csv_path=os.path.join(self.index_dir, 'index_test.csv'),
                                        label_dir=self.label_dir,
-                                       stage='test')
+                                       stage='test',
+                                       **self.kwargs)
 
     def train_dataloader(self) -> TRAIN_DATALOADERS:
         return self.get_dataloader(self.tr_set)
