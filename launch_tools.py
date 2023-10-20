@@ -34,6 +34,7 @@ class StandardTrainer(pl.Trainer):
                  val_check_interval=0.25, 
                  chpt_monitor_loss=True, 
                  chpt_save_all_epoch=False,
+                 strategy=['ddp_find_unused_parameters_false'],
                  *args, **kwargs):
         ## checkpointing behaviors
         cbs = []
@@ -68,7 +69,7 @@ class StandardTrainer(pl.Trainer):
                          default_root_dir=sargs.log_dir, 
                          enable_progress_bar=True, 
                          callbacks=cbs, 
-                         strategy="ddp_find_unused_parameters_true",
+                         strategy=strategy,
                          fast_dev_run=sargs.debug, 
                          log_every_n_steps=1,
                          *args, **kwargs)
