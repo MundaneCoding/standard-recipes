@@ -34,7 +34,7 @@ class StandardTrainer(pl.Trainer):
                  val_check_interval=0.25, 
                  chpt_monitor_loss=True, 
                  chpt_save_all_epoch=False,
-                 strategy=['ddp_find_unused_parameters_false'],
+                 strategy='ddp_find_unused_parameters_false',
                  *args, **kwargs):
         ## checkpointing behaviors
         cbs = []
