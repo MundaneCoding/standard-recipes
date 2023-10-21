@@ -29,6 +29,9 @@ class StandardDatamodule(pl.LightningDataModule):
                  batch_size=1, 
                  caching=False, 
                  dataset=StandardDataset,
+                 index_name={'train': 'train',
+                             'val': 'val',
+                             'test': 'test'},
                  *args, **kwargs) -> None:
         super().__init__()
         self.data_dir = data_dir
@@ -42,6 +45,8 @@ class StandardDatamodule(pl.LightningDataModule):
 
         self.num_worker = 1
 
+        self.index_name = index_name
+
         self.kwargs = kwargs
         
     def prepare_data(self):
@@ -50,24 +55,24 @@ class StandardDatamodule(pl.LightningDataModule):
     def setup(self, stage: str) -> None:
         if stage == 'test_only':
             self.ts_set = self.dataset(data_dir=self.data_dir,
-                                       csv_path=os.path.join(self.index_dir, 'index_test.csv'),
+                                       csv_path=os.path.join(self.index_dir, 'index_{}.csv'.format(self.index_name['test'])),
                                        label_dir=self.label_dir,
                                        stage='test',
                                        **self.kwargs)
         else:
             self.tr_set = self.dataset(data_dir=self.data_dir,
-                                       csv_path=os.path.join(self.index_dir, 'index_train.csv'),
+                                       csv_path=os.path.join(self.index_dir, 'index_{}.csv'.format(self.index_name['train'])),
                                        label_dir=self.label_dir,
                                        stage='train',
                                        shuffle=True, 
                                        **self.kwargs)
             self.va_set = self.dataset(data_dir=self.data_dir,
-                                       csv_path=os.path.join(self.index_dir, 'index_val.csv'),
+                                       csv_path=os.path.join(self.index_dir, 'index_{}.csv'.format(self.index_name['val'])),
                                        label_dir=self.label_dir,
                                        stage='val',
                                        **self.kwargs)
             self.ts_set = self.dataset(data_dir=self.data_dir,
-                                       csv_path=os.path.join(self.index_dir, 'index_test.csv'),
+                                       csv_path=os.path.join(self.index_dir, 'index_{}.csv'.format(self.index_name['test'])),
                                        label_dir=self.label_dir,
                                        stage='test',
                                        **self.kwargs)
