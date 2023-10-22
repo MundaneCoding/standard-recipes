@@ -43,7 +43,10 @@ class StandardDatamodule(pl.LightningDataModule):
 
         self.dataset = dataset
 
-        self.num_worker = 1
+        if 'num_workers' in kwargs:
+            self.num_worker = kwargs['num_workers']
+        else:
+            self.num_worker = 1
 
         self.index_name = index_name
 
