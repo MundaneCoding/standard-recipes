@@ -81,7 +81,7 @@ class StandardDatamodule(pl.LightningDataModule):
                                        **self.kwargs)
 
     def train_dataloader(self) -> TRAIN_DATALOADERS:
-        return self.get_dataloader(self.tr_set)
+        return self.get_dataloader(self.tr_set, shuffle=True)
     
     def val_dataloader(self) -> EVAL_DATALOADERS:
         return self.get_dataloader(self.va_set)
@@ -89,8 +89,8 @@ class StandardDatamodule(pl.LightningDataModule):
     def test_dataloader(self) -> EVAL_DATALOADERS:
         return self.get_dataloader(self.ts_set)
 
-    def get_dataloader(self, dataset):
-        return DataLoader(dataset, batch_size=self.batch_size, num_workers=self.num_worker)
+    def get_dataloader(self, dataset, shuffle=False):
+        return DataLoader(dataset, batch_size=self.batch_size, num_workers=self.num_worker, shuffle=shuffle)
     
 
 if __name__ == '__main__':
