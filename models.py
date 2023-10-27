@@ -38,5 +38,5 @@ class StandardModel(pl.LightningModule):
         return super().on_validation_epoch_end()
     
     ### forward step
-    def _forward_step(batch, batch_idx):
+    def _forward_step(self, batch, batch_idx):
         raise NotImplementedError
