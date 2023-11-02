@@ -34,6 +34,7 @@ class StandardTrainer(pl.Trainer):
                  val_check_interval=0.25, 
                  chpt_monitor_loss=True, 
                  chpt_save_all_epoch=False,
+                 chpt_save_all_val_epoch=False, 
                  strategy='ddp_find_unused_parameters_false',
                  devices=None,
                  max_epochs=None,
@@ -49,7 +50,7 @@ class StandardTrainer(pl.Trainer):
                 verbose=True,
                 auto_insert_metric_name=True,
                 save_on_train_epoch_end=False,
-                save_top_k=3,
+                save_top_k=-1 if chpt_save_all_val_epoch else 3,
                 filename='{epoch}-{step}-{val_loss_epoch:.5f}'
             )
             cbs.append(chpt_cb_loss)
