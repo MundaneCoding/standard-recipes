@@ -10,7 +10,8 @@ class StandardDataset(Dataset):
         super().__init__()
         self.data_dir = data_dir
         self.label_dir = label_dir
-        self.df = pd.read_csv(csv_path)
+        if csv_path is not None:
+            self.df = pd.read_csv(csv_path)
 
     def __len__(self):
         return len(self.df.index)
