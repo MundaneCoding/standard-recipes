@@ -6,7 +6,7 @@ import pytorch_lightning as pl
 
 class StandardModel(pl.LightningModule):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
+        super().__init__()
 
     def save_config(self):
         self.save_hyperparameters()
