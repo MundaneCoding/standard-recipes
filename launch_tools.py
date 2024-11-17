@@ -40,20 +40,23 @@ class StandardTrainer(pl.Trainer):
                  max_epochs=None,
                  log_dir=None, 
                  debug=None, 
+                 monitored_loss=['val_loss_epoch'], 
+                 custom_cb=list(), 
                  *args, **kwargs):
         ## checkpointing behaviors
         cbs = []
         if chpt_monitor_loss:
-            chpt_cb_loss = ModelCheckpoint(
-                monitor='val_loss_epoch',
-                mode='min',
-                verbose=True,
-                auto_insert_metric_name=True,
-                save_on_train_epoch_end=False,
-                save_top_k=-1 if chpt_save_all_val_epoch else 3,
-                filename='{epoch}-{step}-{val_loss_epoch:.5f}'
-            )
-            cbs.append(chpt_cb_loss)
+            for l in monitored_loss:
+                chpt_cb_loss = ModelCheckpoint(
+                    monitor=l,
+                    mode='min',
+                    verbose=True,
+                    auto_insert_metric_name=True,
+                    save_on_train_epoch_end=False,
+                    save_top_k=-1 if chpt_save_all_val_epoch else 3,
+                    filename='{epoch}-{step}-{val_loss_epoch:.5f}'
+                )
+                cbs.append(chpt_cb_loss)
 
         chpt_cb_epoch = ModelCheckpoint(
             monitor='epoch',
@@ -66,6 +69,8 @@ class StandardTrainer(pl.Trainer):
 
         lr_monitor = LearningRateMonitor(logging_interval='step')
         cbs.append(lr_monitor)
+
+        cbs = cbs + custom_cb
 
         super().__init__(accelerator='cuda', 
                          devices=devices if devices is not None else sargs.gpus, 
