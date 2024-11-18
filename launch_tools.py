@@ -47,6 +47,7 @@ class StandardTrainer(pl.Trainer):
         cbs = []
         if chpt_monitor_loss:
             for l in monitored_loss:
+                filename = '{epoch}-{step}-{' + l + ':.5f}'
                 chpt_cb_loss = ModelCheckpoint(
                     monitor=l,
                     mode='min',
@@ -54,7 +55,7 @@ class StandardTrainer(pl.Trainer):
                     auto_insert_metric_name=True,
                     save_on_train_epoch_end=False,
                     save_top_k=-1 if chpt_save_all_val_epoch else 3,
-                    filename='{epoch}-{step}-{val_loss_epoch:.5f}'
+                    filename=filename
                 )
                 cbs.append(chpt_cb_loss)
 
