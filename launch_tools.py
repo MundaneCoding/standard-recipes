@@ -71,7 +71,7 @@ class StandardTrainer(pl.Trainer):
         lr_monitor = LearningRateMonitor(logging_interval='step')
         cbs.append(lr_monitor)
 
-        cbs = cbs + custom_cb
+        cbs = cbs.append(custom_cb)
 
         super().__init__(accelerator='cuda', 
                          devices=devices if devices is not None else sargs.gpus, 
